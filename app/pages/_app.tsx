@@ -1,3 +1,4 @@
+import { Suspense } from "react"
 import { AppProps, ErrorComponent, useRouter } from "blitz"
 import { ErrorBoundary, FallbackProps } from "react-error-boundary"
 import { queryCache } from "react-query"
@@ -18,7 +19,7 @@ export default function App({ Component, pageProps }: AppProps) {
         queryCache.resetErrorBoundaries()
       }}
     >
-      {getLayout(<Component {...pageProps} />)}
+      <Suspense fallback="Loading...">{getLayout(<Component {...pageProps} />)}</Suspense>
     </ErrorBoundary>
   )
 }

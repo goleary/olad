@@ -17,12 +17,12 @@ export const EditEntry = () => {
       <pre>{JSON.stringify(entry)}</pre>
 
       <EntryForm
-        initialValues={entry}
-        onSubmit={async () => {
+        initialValue={entry.text}
+        onSubmit={async (text) => {
           try {
             const updated = await updateEntryMutation({
               where: { id: entry.id },
-              data: { text: "line" },
+              data: { text },
             })
             await mutate(updated)
             alert("Success!" + JSON.stringify(updated))

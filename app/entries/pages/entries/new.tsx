@@ -3,22 +3,28 @@ import Layout from "app/layouts/Layout"
 import { Link, useRouter, useMutation, BlitzPage } from "blitz"
 import createEntry from "app/entries/mutations/createEntry"
 import EntryForm from "app/entries/components/EntryForm"
+import { useCurrentUser } from "app/hooks/useCurrentUser"
 
 const NewEntryPage: BlitzPage = () => {
   const router = useRouter()
   const [createEntryMutation] = useMutation(createEntry)
+  const currentUser = useCurrentUser()
 
   return (
     <div>
       <h1>Create New Entry</h1>
 
       <EntryForm
-        initialValues={{}}
-        onSubmit={async () => {
+        onSubmit={async (text) => {
           try {
-            //const entry = await createEntryMutation({ data: { text: "MyName" } })
-            //alert("Success!" + JSON.stringify(entry))
-            //router.push("/entries/[entryId]", `/entries/${entry.id}`)
+            if (!currentUser) {
+              throw Error("No current user")
+            }
+            const entry = await createEntryMutation({
+              data: { text, user: { connect: { id: currentUser.id } } },
+            })
+            alert("Success!" + JSON.stringify(entry))
+            router.push("/entries/[entryId]", `/entries/${entry.id}`)
           } catch (error) {
             alert("Error creating entry " + JSON.stringify(error, null, 2))
           }

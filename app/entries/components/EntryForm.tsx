@@ -1,20 +1,25 @@
-import React from "react"
+import { EntryCreateInput } from "@prisma/client"
+import React, { useState } from "react"
 
 type EntryFormProps = {
-  initialValues: any
-  onSubmit: React.FormEventHandler<HTMLFormElement>
+  initialValue?: string
+  onSubmit: (text: string) => void
 }
 
-const EntryForm = ({ initialValues, onSubmit }: EntryFormProps) => {
+const EntryForm = ({ initialValue, onSubmit }: EntryFormProps) => {
+  const [text, setText] = useState<string>(initialValue ?? "")
   return (
     <form
       onSubmit={(event) => {
         event.preventDefault()
-        onSubmit(event)
+        onSubmit(text)
       }}
     >
-      <div>Put your form fields here. But for now, just click submit</div>
-      <div>{JSON.stringify(initialValues)}</div>
+      <input
+        value={text}
+        onChange={(event) => setText(event.target.value)}
+        placeholder="your line for the day"
+      />
       <button>Submit</button>
     </form>
   )

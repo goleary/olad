@@ -5,7 +5,7 @@ import getEntries from "app/entries/queries/getEntries"
 
 const ITEMS_PER_PAGE = 100
 
-export const EntriesList = () => {
+export const EntriesList: BlitzPage = () => {
   const router = useRouter()
   const page = Number(router.query.page) || 0
   const [{ entries, hasMore }] = usePaginatedQuery(getEntries, {
@@ -14,8 +14,8 @@ export const EntriesList = () => {
     take: ITEMS_PER_PAGE,
   })
 
-  const goToPreviousPage = () => router.push({ query: { page: page - 1 } })
-  const goToNextPage = () => router.push({ query: { page: page + 1 } })
+  // const goToPreviousPage = () => router.push({ query: { page: page - 1 } })
+  // const goToNextPage = () => router.push({ query: { page: page + 1 } })
 
   return (
     <div>
@@ -29,12 +29,12 @@ export const EntriesList = () => {
         ))}
       </ul>
 
-      <button disabled={page === 0} onClick={goToPreviousPage}>
+      {/* <button disabled={page === 0} onClick={goToPreviousPage}>
         Previous
       </button>
       <button disabled={!hasMore} onClick={goToNextPage}>
         Next
-      </button>
+      </button> */}
     </div>
   )
 }
