@@ -1,4 +1,4 @@
-import { BlitzPage } from "blitz"
+import { BlitzPage, Link } from "blitz"
 import Layout from "app/layouts/Layout"
 import { Suspense } from "react"
 
@@ -18,6 +18,7 @@ const Home: BlitzPage = () => {
             </Suspense>
           )}
         </div>
+        <Link href="/notebook">notebook</Link>
       </main>
 
       <footer>
