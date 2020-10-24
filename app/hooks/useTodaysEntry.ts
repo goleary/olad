@@ -3,28 +3,18 @@ import createEntry from "app/entries/mutations/createEntry"
 import updateEntry from "app/entries/mutations/updateEntry"
 import getEntries from "app/entries/queries/getEntries"
 import { useMutation, useQuery } from "blitz"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { useCurrentUser } from "./useCurrentUser"
+import { useEntries } from "./useEntries"
 
 export const useTodaysEntry = () => {
   const user = useCurrentUser()
   const [todaysEntry, setTodaysEntry] = useState<Entry>()
-  const [latest, setLatest] = useState<Entry>()
   const [createEntryMutation] = useMutation(createEntry)
   const [updateEntryMutation] = useMutation(updateEntry)
+  const { entries } = useEntries()
 
-  const [entriesResult] = useQuery(
-    getEntries,
-    {
-      where: { userId: user?.id },
-      orderBy: { createdAt: "desc" },
-    },
-    { enabled: user }
-  )
-
-  useEffect(() => {
-    setLatest(entriesResult?.entries?.[0])
-  }, [entriesResult])
+  const latest = entries?.[0]
 
   useEffect(() => {
     const checkLatestAndCreateIfNeeded = async () => {

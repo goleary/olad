@@ -16,7 +16,7 @@ const Layout = ({ title, children }: LayoutProps) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <NavBar />
-      <div className="w-full max-w-xl m-auto">{children}</div>
+      <div className="w-full max-w-screen-md m-auto">{children}</div>
     </>
   )
 }
